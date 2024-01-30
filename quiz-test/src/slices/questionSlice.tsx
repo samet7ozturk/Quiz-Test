@@ -79,5 +79,4 @@ const questionSlice = createSlice({
   reducers: {},
 });
 
-//export const { increment, decrement } = counterSlice.actions;
 export default questionSlice.reducer;
