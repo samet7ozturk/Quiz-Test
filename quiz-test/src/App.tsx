@@ -5,6 +5,7 @@ import { RootState } from "./store/store";
 function App() {
   const [click1, setClick1] = useState(true);
   const [count, setCount] = useState(0);
+  const [score, setScore] = useState(0);
   const questionState = useAppSelector((state: RootState) => state.question);
   console.log(questionState);
 
@@ -14,9 +15,15 @@ function App() {
 
   const handleOptionClick = (optionCorrect: boolean) => {
     console.log(`Option ${optionCorrect} clicked`);
-    if (optionCorrect == true) {
-      setCount((prevCount) => prevCount + 1);
-      console.log(count);
+    if (count < questionState.questions.length - 1) {
+      if (optionCorrect == true) {
+        setCount((count) => count + 1);
+        setScore((score) => score + 10);
+      } else {
+        setScore((score) => score - 10);
+      }
+    } else {
+      console.log("Tebrikler oyunu kazandınız!");
     }
   };
 
@@ -24,7 +31,7 @@ function App() {
     <>
       <nav>
         <p>Username:</p>
-        <p>Score:</p>
+        <p>Score:{score}</p>
         <p>Rank:</p>
         <p>Settings</p>
         <select>
