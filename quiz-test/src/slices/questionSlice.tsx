@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 interface Option {
   id: number;
   text: string;
+  correct: boolean;
 }
 
 interface Question {
@@ -22,10 +23,50 @@ const initialState: QuestionState = {
       id: 1,
       text: "QuizModeOn hangi şehirde?",
       options: [
-        { id: 1, text: "Ankara" },
-        { id: 2, text: "İstanbul" },
-        { id: 3, text: "Sakarya" },
-        { id: 4, text: "Balıkesir" },
+        { id: 1, text: "Ankara", correct: false },
+        { id: 2, text: "İstanbul", correct: true },
+        { id: 3, text: "Sakarya", correct: false },
+        { id: 4, text: "Balıkesir", correct: false },
+      ],
+    },
+    {
+      id: 2,
+      text: "QuizModeOn hangi sadsa?",
+      options: [
+        { id: 1, text: "Ankara", correct: false },
+        { id: 2, text: "İstanbul", correct: false },
+        { id: 3, text: "Sakarya", correct: true },
+        { id: 4, text: "Balıkesir", correct: false },
+      ],
+    },
+    {
+      id: 3,
+      text: "QuizModeOn şehirde?",
+      options: [
+        { id: 1, text: "Ankara", correct: false },
+        { id: 2, text: "İstanbul", correct: false },
+        { id: 3, text: "Sakarya", correct: false },
+        { id: 4, text: "Balıkesir", correct: false },
+      ],
+    },
+    {
+      id: 4,
+      text: "QuizModeOn hangi şehirde?",
+      options: [
+        { id: 1, text: "Ankara", correct: false },
+        { id: 2, text: "İstanbul", correct: false },
+        { id: 3, text: "Sakarya", correct: false },
+        { id: 4, text: "Balıkesir", correct: false },
+      ],
+    },
+    {
+      id: 5,
+      text: "QuizModeOn hangi şehirde?",
+      options: [
+        { id: 1, text: "Ankara", correct: false },
+        { id: 2, text: "İstanbul", correct: false },
+        { id: 3, text: "Sakarya", correct: false },
+        { id: 4, text: "Balıkesir", correct: false },
       ],
     },
   ],
