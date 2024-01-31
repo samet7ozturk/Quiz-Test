@@ -18,7 +18,7 @@ function HomePage() {
   }
 
   return (
-    <main className="bg-red-400 h-[100vh] flex flex-col justify-center items-center gap-8 text-3xl text-gray-200">
+    <main className="bg-red-400 h-[100vh] flex flex-col justify-center items-center gap-8 text-3xl text-gray-200 animate-fade-down">
       <img src={img} alt="img" className="w-60" />
       <p>Welcome</p>
       <p>Click the button to start the game.</p>
@@ -29,7 +29,7 @@ function HomePage() {
         START
       </button>
       {click && (
-        <div className="bg-blue-400 absolute flex flex-col h-[500px] w-[500px] rounded-3xl justify-evenly px-16">
+        <div className="bg-blue-400 absolute flex flex-col h-[500px] w-[500px] rounded-3xl justify-evenly px-16 animate-animation1">
           <button className="absolute top-4 right-6" onClick={openInput}>
             <IoIosClose className="h-10 w-10" />
           </button>
