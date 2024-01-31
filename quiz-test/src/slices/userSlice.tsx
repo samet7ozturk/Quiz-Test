@@ -4,7 +4,7 @@ interface User {
   id: number;
   name: string;
   score: number;
-  health: number;
+  life: number;
 }
 
 interface UserState {
@@ -17,7 +17,7 @@ const initialState: UserState = {
       id: 1,
       name: "Samet Ozturk",
       score: 0,
-      health: 3,
+      life: 3,
     },
   ],
 };
