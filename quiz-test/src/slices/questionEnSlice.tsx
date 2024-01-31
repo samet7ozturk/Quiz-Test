@@ -21,7 +21,7 @@ const initialState: QuestionState = {
   questions: [
     {
       id: 1,
-      text: "QuizModeOn hangi şehirde?",
+      text: "In which city is QuizModeOn located?",
       options: [
         { id: 1, text: "Ankara", correct: false },
         { id: 2, text: "İstanbul", correct: true },
@@ -73,10 +73,10 @@ const initialState: QuestionState = {
   currentQuestionIndex: 0,
 };
 
-const questionSlice = createSlice({
+const questionTrSlice = createSlice({
   name: "question",
   initialState,
   reducers: {},
 });
 
-export default questionSlice.reducer;
+export default questionTrSlice.reducer;
