@@ -3,10 +3,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 import questionReducer from "../slices/questionSlice";
+import userReducer from "../slices/userSlice";
 
 const store = configureStore({
   reducer: {
     question: questionReducer,
+    user: userReducer,
   },
 });
 
