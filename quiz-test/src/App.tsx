@@ -5,7 +5,11 @@ import { decrease, increase } from "./slices/userSlice";
 
 import img from "./assets/profil.png";
 import { FaHeart } from "react-icons/fa";
-import { TbTimeDuration10 } from "react-icons/tb";
+import {
+  TbTimeDuration10,
+  TbMath1Divide2,
+  TbMultiplier2X,
+} from "react-icons/tb";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -38,7 +42,9 @@ function App() {
     setClick1(!click1);
   };
 
-  const joker1 = () => {
+  const joker1 = () => {};
+
+  const joker2 = () => {
     if (timer + 10 <= 30) {
       setTimer(timer + 10);
     } else {
@@ -46,12 +52,14 @@ function App() {
     }
   };
 
+  const joker3 = () => {};
+
   const handleOptionClick = (optionCorrect: boolean) => {
     if (count < questionStateTr.questions.length - 1) {
       if (optionCorrect == true) {
         setCount((count) => count + 1);
         dispatch(increase());
-        setTimer(60);
+        setTimer(30);
       } else {
         dispatch(decrease());
       }
@@ -137,10 +145,14 @@ function App() {
 
         <div className="flex justify-center gap-12 py-8">
           <button onClick={joker1}>
+            <TbMath1Divide2 className="text-3xl" />
+          </button>
+          <button onClick={joker2}>
             <TbTimeDuration10 className="text-3xl" />
           </button>
-          <button>Joker 2</button>
-          <button>Joker 3</button>
+          <button onClick={joker3}>
+            <TbMultiplier2X className="text-3xl" />
+          </button>
         </div>
 
         <div className="flex justify-around py-8">
@@ -188,7 +200,7 @@ function App() {
         </div>
 
         <div className="flex flex-col gap-4 items-center">
-          {questionStateTr.questions[0].options.map((item) => (
+          {questionStateTr.questions[`${count}`].options.map((item) => (
             <button
               className={`border-2 rounded-lg w-[200px] h-[40px] hover:scale-105 transition ${
                 click1 ? "bg-[#F05941]" : "bg-[#39A7FF]"
