@@ -1,26 +1,31 @@
 import { useState } from "react";
-import { useAppSelector } from "./store/store";
 import { RootState } from "./store/store";
+import { useAppDispatch, useAppSelector } from "./store/store";
+import { decrease, increase } from "./slices/userSlice";
 
 function App() {
+  const dispatch = useAppDispatch();
+
+  const questionState = useAppSelector((state: RootState) => state.question);
+  const userState = useAppSelector((state: RootState) => state.user);
+
   const [click1, setClick1] = useState(true);
   const [count, setCount] = useState(0);
-  const [score, setScore] = useState(0);
-  const questionState = useAppSelector((state: RootState) => state.question);
+
   console.log(questionState);
+  console.log(userState.user[0].score);
 
   const switchTheme = () => {
     setClick1(!click1);
   };
 
   const handleOptionClick = (optionCorrect: boolean) => {
-    console.log(`Option ${optionCorrect} clicked`);
     if (count < questionState.questions.length - 1) {
       if (optionCorrect == true) {
         setCount((count) => count + 1);
-        setScore((score) => score + 10);
+        dispatch(increase());
       } else {
-        setScore((score) => score - 10);
+        dispatch(decrease());
       }
     } else {
       console.log("Tebrikler oyunu kazandınız!");
@@ -36,7 +41,7 @@ function App() {
       >
         <div className="flex gap-4 text-white">
           <p>Username:</p>
-          <p>Score:{score}</p>
+          <p>Score:{userState.user[0].score}</p>
           <p>Rank:</p>
         </div>
 
