@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       animation: {
-        animation1: "animation1 0.3s linear both",
+        animation1: "animation1 0.3s ease-in both",
         animation2: "animation2 0.4s linear both",
         animation3: "animation3 0.4s linear both",
       },
@@ -22,9 +22,7 @@ export default {
           "100%": { transform: "translateY(0)", opacity: 1 },
         },
       },
-      fontFamily: {
-        miltonian: ["Black Ops One", "sans-serif"],
-      },
+      fontFamily: {},
     },
   },
   plugins: [require("daisyui"), require("tailwindcss-animated")],
