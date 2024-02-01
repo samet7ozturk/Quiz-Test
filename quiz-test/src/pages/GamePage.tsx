@@ -75,9 +75,9 @@ function GamePage() {
 
   const joker3 = () => {};
 
-  const handleOptionClick = (optionCorrect: boolean) => {
+  function handleOptionClick(optionisCorrect: boolean) {
     if (count < questionStateTr.questions.length - 1) {
-      if (optionCorrect == true) {
+      if (optionisCorrect == true) {
         setCount((count) => count + 1);
         dispatch(increase());
         setTimer(30);
@@ -91,7 +91,7 @@ function GamePage() {
     } else {
       console.log("Tebrikler oyunu kazandınız!");
     }
-  };
+  }
 
   useEffect(() => {
     const timerInterval = setInterval(() => {
@@ -250,7 +250,7 @@ function GamePage() {
                   click1 ? "bg-[#7a7385]" : "bg-[#4b9efe]"
                 } text-white text-xl`}
                 key={item.id}
-                onClick={() => handleOptionClick(item.correct)}
+                onClick={() => handleOptionClick(item.isCorrect)}
               >
                 {item.text}
               </button>

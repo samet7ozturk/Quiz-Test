@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 interface Option {
   id: number;
   text: string;
-  correct: boolean;
+  isCorrect: boolean;
 }
 
 interface Question {
@@ -23,50 +23,50 @@ const initialState: QuestionState = {
       id: 1,
       text: "QuizModeOn hangi şehirde?",
       options: [
-        { id: 1, text: "Ankara", correct: false },
-        { id: 2, text: "İstanbul", correct: true },
-        { id: 3, text: "Sakarya", correct: false },
-        { id: 4, text: "Balıkesir", correct: false },
+        { id: 1, text: "Ankara", isCorrect: false },
+        { id: 2, text: "İstanbul", isCorrect: true },
+        { id: 3, text: "Sakarya", isCorrect: false },
+        { id: 4, text: "Balıkesir", isCorrect: false },
       ],
     },
     {
       id: 2,
       text: "QuizModeOn hangi sadsa?",
       options: [
-        { id: 1, text: "Ankara", correct: false },
-        { id: 2, text: "İstanbul", correct: false },
-        { id: 3, text: "Sakarya", correct: true },
-        { id: 4, text: "Balıkesir", correct: false },
+        { id: 1, text: "Ankara", isCorrect: false },
+        { id: 2, text: "İstanbul", isCorrect: false },
+        { id: 3, text: "Sakarya", isCorrect: true },
+        { id: 4, text: "Balıkesir", isCorrect: false },
       ],
     },
     {
       id: 3,
       text: "QuizModeOn şehirde?",
       options: [
-        { id: 1, text: "Ankara", correct: false },
-        { id: 2, text: "İstanbul", correct: false },
-        { id: 3, text: "Sakarya", correct: false },
-        { id: 4, text: "Balıkesir", correct: false },
+        { id: 1, text: "Ankara", isCorrect: false },
+        { id: 2, text: "İstanbul", isCorrect: false },
+        { id: 3, text: "Sakarya", isCorrect: false },
+        { id: 4, text: "Balıkesir", isCorrect: false },
       ],
     },
     {
       id: 4,
       text: "QuizModeOn hangi şehirde?",
       options: [
-        { id: 1, text: "Ankara", correct: false },
-        { id: 2, text: "İstanbul", correct: false },
-        { id: 3, text: "Sakarya", correct: false },
-        { id: 4, text: "Balıkesir", correct: false },
+        { id: 1, text: "Ankara", isCorrect: false },
+        { id: 2, text: "İstanbul", isCorrect: false },
+        { id: 3, text: "Sakarya", isCorrect: false },
+        { id: 4, text: "Balıkesir", isCorrect: false },
       ],
     },
     {
       id: 5,
       text: "QuizModeOn hangi şehirde?",
       options: [
-        { id: 1, text: "Ankara", correct: false },
-        { id: 2, text: "İstanbul", correct: false },
-        { id: 3, text: "Sakarya", correct: false },
-        { id: 4, text: "Balıkesir", correct: false },
+        { id: 1, text: "Ankara", isCorrect: false },
+        { id: 2, text: "İstanbul", isCorrect: false },
+        { id: 3, text: "Sakarya", isCorrect: false },
+        { id: 4, text: "Balıkesir", isCorrect: false },
       ],
     },
   ],
