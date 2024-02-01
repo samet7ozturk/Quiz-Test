@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Concert+One&family=Miltonian+Tattoo&family=Rubik+Doodle+Shadow&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,5 +7,4 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: "miltonian";
 }

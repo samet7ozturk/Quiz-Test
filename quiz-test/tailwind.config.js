@@ -22,7 +22,10 @@ export default {
           "100%": { transform: "translateY(0)", opacity: 1 },
         },
       },
-      fontFamily: {},
+      fontFamily: {
+        black: ["'Black Ops One'"],
+        rubik: ["'Rubik Doodle Shadow'"],
+      },
     },
   },
   plugins: [require("daisyui"), require("tailwindcss-animated")],

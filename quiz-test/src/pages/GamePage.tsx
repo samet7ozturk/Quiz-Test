@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { RootState } from "../store/store";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import {
   decrease,
@@ -15,8 +16,10 @@ import {
   TbExposurePlus1,
   TbMultiplier2X,
 } from "react-icons/tb";
+import { LiaTrophySolid } from "react-icons/lia";
 
 function GamePage() {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const questionStateTr = useAppSelector(
@@ -29,7 +32,8 @@ function GamePage() {
 
   const [count, setCount] = useState(0);
   const [timer, setTimer] = useState(30);
-  const [click1, setClick1] = useState(true);
+  const [click1, setClick1] = useState(false);
+  const [gameWinner, setGameWinner] = useState(false);
   const [life, setLife] = useState(userState.user[0].life);
   const [joker1Used, setJoker1Used] = useState(false);
   const [joker2Used, setJoker2Used] = useState(false);
@@ -39,6 +43,9 @@ function GamePage() {
     score: "Skor:",
     question: "Soru",
   });
+
+  const storedUserData = localStorage.getItem("user");
+  const user = storedUserData ? JSON.parse(storedUserData) : null;
 
   function handleLanguageChange(selectedValue: string) {
     if (selectedValue == "turkish") {
@@ -81,6 +88,10 @@ function GamePage() {
 
   const joker3 = () => {};
 
+  const goToHomePage = () => {
+    navigate("/");
+  };
+
   function handleOptionClick(optionisCorrect: boolean) {
     if (count < questionStateTr.questions.length - 1) {
       if (optionisCorrect == true) {
@@ -93,6 +104,7 @@ function GamePage() {
           setLife(life - 1);
           dispatch(lifeDecrease());
         } else if (life == 0) {
+          setGameWinner(!gameWinner);
         }
       }
     } else {
@@ -106,7 +118,6 @@ function GamePage() {
     }, 1000);
     if (count === questionStateTr.questions.length - 1 || timer === 0) {
       clearInterval(timerInterval);
-      console.log("Oyunu kaybettiniz!");
     }
     return () => clearInterval(timerInterval);
   }, [count, timer, questionStateTr.questions.length]);
@@ -123,7 +134,7 @@ function GamePage() {
       <nav
         className={`flex justify-between items-center h-16 ${
           click1 ? "bg-[#2b2a2d]" : "bg-[#849df5]"
-        } px-6`}
+        } px-6 font-rubik text-xl`}
       >
         <div className="flex gap-4 text-white items-center">
           <div className="avatar">
@@ -131,14 +142,14 @@ function GamePage() {
               <img src={img} />
             </div>
           </div>
-          <p>{`${sentences.username} ${userState.user[0].name}`}</p>
-          <p>{`${sentences.score} ${userState.user[0].score}`}</p>
+          <p>{`${sentences.username} ${user.name}`}</p>
+          <p>{`${sentences.score} ${user.score}`}</p>
         </div>
 
         <div className="flex items-center gap-4">
           <select
             onChange={(e) => handleLanguageChange(e.target.value)}
-            className="rounded-md h-8"
+            className="rounded-md h-8 text-base"
           >
             <option value="turkish">Turkish</option>
             <option value="english">English</option>
@@ -171,7 +182,7 @@ function GamePage() {
       <main
         className={`${
           click1 ? "bg-[#5b595e]" : "bg-[#f1f0ef]"
-        } h-[calc(100vh_-_64px)]`}
+        } h-[calc(100vh_-_64px)] font-black tracking-wider font-normal`}
         key={count}
       >
         <div className="flex justify-center pt-20 animate-animation3">
@@ -204,7 +215,7 @@ function GamePage() {
               <p className="text-2xl">{`${sentences.question} ${count + 1}`}</p>
             </div>
             <div className="flex justify-center pb-8">
-              <p className="text-2xl">{questions.questions[`${count}`].text}</p>
+              <p className="text-xl ">{questions.questions[`${count}`].text}</p>
             </div>
           </div>
 
@@ -256,7 +267,7 @@ function GamePage() {
                   click1 ? "border-[#b0a2c6]" : "border-none"
                 } rounded-lg w-[300px] h-[40px] hover:scale-105 transition ${
                   click1 ? "bg-[#7a7385]" : "bg-[#4b9efe]"
-                } text-white text-xl`}
+                } text-white text-xl tracking-wider font-light`}
                 key={item.id}
                 onClick={() => handleOptionClick(item.isCorrect)}
               >
@@ -265,6 +276,35 @@ function GamePage() {
             ))}
           </div>
         </div>
+        {gameWinner && (
+          <div className="absolute top-[40%] left-[37%] bg-white rounded-md w-[400px] h-[300px] flex flex-col items-center justify-center gap-8">
+            <p>Congratulations! You Won the Game.</p>
+            <p>Score:</p>
+            <div>
+              <LiaTrophySolid className="h-16 w-16 text-yellow-400" />
+            </div>
+            <button onClick={goToHomePage}>Play Again</button>
+          </div>
+        )}
+        {!life && (
+          <div
+            className={`absolute top-[40%] left-[37%] ${
+              click1 ? "bg-[#2b2a2d]" : "bg-[]"
+            } rounded-md w-[400px] h-[300px] flex flex-col items-center justify-center gap-8 text-white`}
+          >
+            <p>Unfortunately, You Lost the Game.</p>
+            <p>Score:</p>
+            <div>
+              <LiaTrophySolid className="h-16 w-16 text-yellow-400" />
+            </div>
+            <button
+              onClick={goToHomePage}
+              className={`${click1 ? "bg-[#7a7385]" : ""} rounded-md w-28 h-8`}
+            >
+              Play Again
+            </button>
+          </div>
+        )}
       </main>
     </>
   );
