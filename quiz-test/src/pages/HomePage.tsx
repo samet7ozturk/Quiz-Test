@@ -26,15 +26,12 @@ function HomePage() {
 
   function onSubmit(data: FormData) {
     dispatch(sendLoginInfo({ ...data }));
-  }
-
-  function openInput() {
-    setClick(!click);
-  }
-
-  function gameStart() {
     navigate("/quiz-game");
   }
+
+  const openInput = () => {
+    setClick(!click);
+  };
 
   return (
     <main className="bg-red-400 h-[100vh] flex flex-col justify-center items-center gap-8 text-3xl text-gray-200 animate-fade-down">
@@ -55,44 +52,56 @@ function HomePage() {
           <button className="absolute top-4 right-6" onClick={openInput}>
             <IoIosClose className="h-10 w-10" />
           </button>
-          <label className="flex justify-between">
-            <p>Name</p>
-            <input
-              type="text"
-              {...register("name", {
-                required: "Name is required!",
-              })}
-              placeholder=" Name"
-              className="w-60 rounded-xl"
-            ></input>
-            <p>{errors.name?.message}</p>
+          <label className="flex flex-col gap-2">
+            <div className="flex justify-between">
+              <p>Name</p>
+              <input
+                type="text"
+                {...register("name", {
+                  required: "Name is required!",
+                })}
+                placeholder=" Name"
+                className="w-60 rounded-xl"
+              ></input>
+            </div>
+            <div>
+              <p>{errors.name?.message}</p>
+            </div>
           </label>
-          <label className="flex justify-between">
-            <p>Surname</p>
-            <input
-              type="text"
-              {...register("surname", {
-                required: "Surname is required!",
-              })}
-              placeholder=" Surname"
-              className="w-60 rounded-xl"
-            ></input>
-            <p>{errors.surname?.message}</p>
+          <label className="flex flex-col gap-2">
+            <div className="flex justify-between">
+              <p>Surname</p>
+              <input
+                type="text"
+                {...register("surname", {
+                  required: "Surname is required!",
+                })}
+                placeholder=" Surname"
+                className="w-60 rounded-xl"
+              ></input>
+            </div>
+            <div>
+              <p>{errors.surname?.message}</p>
+            </div>
           </label>
-          <label className="flex justify-between">
-            <p>Email</p>
-            <input
-              type="text"
-              {...register("email", {
-                required: "Email is required!",
-              })}
-              placeholder=" Email"
-              className="w-60 rounded-xl"
-            ></input>
-            <p>{errors.email?.message}</p>
+          <label className="flex flex-col gap-2">
+            <div className="flex justify-between">
+              <p>Email</p>
+              <input
+                type="text"
+                {...register("email", {
+                  required: "Email is required!",
+                })}
+                placeholder=" Email"
+                className="w-60 rounded-xl"
+              ></input>
+            </div>
+            <div>
+              <p>{errors.email?.message}</p>
+            </div>
           </label>
           <button
-            onClick={gameStart}
+            type="submit"
             className="bg-red-400 rounded-3xl p-4 hover:scale-110 duration-300 transition"
           >
             START
