@@ -3,11 +3,30 @@ import { useNavigate } from "react-router-dom";
 
 import { IoIosClose } from "react-icons/io";
 import img from "../assets/quizmodeon.png";
+import { useForm } from "react-hook-form";
+import { useAppDispatch } from "../store/store";
+import { sendLoginInfo } from "../slices/userSlice";
 
 function HomePage() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const [click, setClick] = useState(false);
+
+  type FormData = {
+    name: string;
+    surname: string;
+    email: string;
+  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
+
+  function onSubmit(data: FormData) {
+    dispatch(sendLoginInfo({ ...data }));
+  }
 
   function openInput() {
     setClick(!click);
@@ -29,41 +48,56 @@ function HomePage() {
         START
       </button>
       {click && (
-        <div className="bg-blue-400 absolute flex flex-col h-[500px] w-[500px] rounded-3xl justify-evenly px-16 animate-animation1">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="bg-blue-400 absolute flex flex-col h-[500px] w-[500px] rounded-3xl justify-evenly px-16 animate-animation1"
+        >
           <button className="absolute top-4 right-6" onClick={openInput}>
             <IoIosClose className="h-10 w-10" />
           </button>
-          <div className="flex justify-between pt-4">
-            <label>Name</label>
+          <label className="flex justify-between">
+            <p>Name</p>
             <input
               type="text"
+              {...register("name", {
+                required: "Name is required!",
+              })}
               placeholder=" Name"
               className="w-60 rounded-xl"
             ></input>
-          </div>
-          <div className="flex justify-between">
-            <label>Surname</label>
+            <p>{errors.name?.message}</p>
+          </label>
+          <label className="flex justify-between">
+            <p>Surname</p>
             <input
               type="text"
+              {...register("surname", {
+                required: "Surname is required!",
+              })}
               placeholder=" Surname"
               className="w-60 rounded-xl"
             ></input>
-          </div>
-          <div className="flex justify-between">
-            <label>Email</label>
+            <p>{errors.surname?.message}</p>
+          </label>
+          <label className="flex justify-between">
+            <p>Email</p>
             <input
               type="text"
+              {...register("email", {
+                required: "Email is required!",
+              })}
               placeholder=" Email"
               className="w-60 rounded-xl"
             ></input>
-          </div>
+            <p>{errors.email?.message}</p>
+          </label>
           <button
             onClick={gameStart}
             className="bg-red-400 rounded-3xl p-4 hover:scale-110 duration-300 transition"
           >
             START
           </button>
-        </div>
+        </form>
       )}
     </main>
   );
