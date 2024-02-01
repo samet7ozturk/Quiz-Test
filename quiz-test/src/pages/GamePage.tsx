@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { RootState } from "../store/store";
 import { useAppDispatch, useAppSelector } from "../store/store";
-import { decrease, increase } from "../slices/userSlice";
+import {
+  decrease,
+  increase,
+  lifeDecrease,
+  lifeIncrease,
+} from "../slices/userSlice";
 
 import img from "../assets/profil.png";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
@@ -61,6 +66,7 @@ function GamePage() {
     if (life < 3) {
       setLife(life + 1);
       setJoker1Used(true);
+      dispatch(lifeIncrease());
     }
   };
 
@@ -85,6 +91,7 @@ function GamePage() {
         dispatch(decrease());
         if (life > 0) {
           setLife(life - 1);
+          dispatch(lifeDecrease());
         } else if (life == 0) {
         }
       }
@@ -165,6 +172,7 @@ function GamePage() {
         className={`${
           click1 ? "bg-[#5b595e]" : "bg-[#f1f0ef]"
         } h-[calc(100vh_-_64px)]`}
+        key={count}
       >
         <div className="flex justify-center pt-20 animate-animation3">
           <h1 className="text-[40px]">QUIZ</h1>
