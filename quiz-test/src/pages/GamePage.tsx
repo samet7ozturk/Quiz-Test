@@ -7,6 +7,7 @@ import {
   scoreIncrease,
   lifeDecrease,
   lifeIncrease,
+  resetUser,
 } from "../slices/userSlice";
 
 import Swal from "sweetalert2";
@@ -31,17 +32,20 @@ function GamePage() {
   );
   const userState = useAppSelector((state: RootState) => state.user);
 
-  const [questionCount, setQuestionCount] = useState(0);
   const [timer, setTimer] = useState(30);
   const [click1, setClick1] = useState(false);
   const [showCorrect, setShowCorrect] = useState(false);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
-  //const [darkMode, setDarkMode] = useState("");
+  const [darkMode, setDarkMode] = useState("");
   const [gameWinner, setGameWinner] = useState(false);
   const [life, setLife] = useState(userState.user[0].life);
   const [joker1Used, setJoker1Used] = useState(false);
   const [joker2Used, setJoker2Used] = useState(false);
   const [questions, setQuestions] = useState(questionStateTr);
+  const [questionCount, setQuestionCount] = useState(() => {
+    const storedQuestionCount = localStorage.getItem("questionCount");
+    return storedQuestionCount ? parseInt(storedQuestionCount, 10) : 0;
+  });
   const [sentences, setSentences] = useState({
     username: "Kullanıcı Adı:",
     score: "Skor:",
@@ -101,6 +105,8 @@ function GamePage() {
   };
 
   const goToHomePage = () => {
+    dispatch(resetUser());
+    localStorage.removeItem("user");
     navigate("/");
   };
 
@@ -118,12 +124,11 @@ function GamePage() {
         if (life > 0) {
           setLife(life - 1);
           dispatch(lifeDecrease());
-        } else if (life == 0) {
         }
       }
     } else {
       setGameWinner(!gameWinner);
-      console.log("Tebrikler oyunu kazandınız!");
+      setQuestionCount(0);
     }
     setSelectedOption(optionId);
     setShowCorrect(true);
@@ -143,14 +148,18 @@ function GamePage() {
   const [circleOffset, setCircleOffset] = useState(circumference);
 
   useEffect(() => {
+    localStorage.setItem("questionCount", questionCount.toString());
     setCircleOffset(circumference - (timer / 60) * circumference);
-  }, [timer]);
+    if (timer === 0) {
+      setLife(!life);
+      setQuestionCount(0);
+    }
+  }, [timer, questionCount]);
 
   return (
     <>
       <nav
-        className="flex justify-between items-center h-16 ${
-           darkMode:bg-[#2b2a2d]  bg-[#849df5]
+        className="flex justify-between items-center h-16 bg-blue-300 dark:bg-red-300 
          px-6 font-rubik text-xl"
       >
         <div className="flex gap-4 text-white items-center">
@@ -310,11 +319,7 @@ function GamePage() {
           </div>
         )}
         {!life && (
-          <div
-            className={`absolute top-[40%] left-[37%] ${
-              click1 ? "bg-[#2b2a2d]" : "bg-[]"
-            } rounded-md w-[400px] h-[300px] flex flex-col items-center justify-center gap-8 text-white`}
-          >
+          <div className="absolute top-[40%] left-[37%] bg-white rounded-md w-[400px] h-[300px] flex flex-col items-center justify-center gap-8">
             <p>Unfortunately, You Lost the Game.</p>
             <p>{`Score:${user.score}`}</p>
             <div>

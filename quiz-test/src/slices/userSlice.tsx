@@ -55,6 +55,10 @@ const userSlice = createSlice({
       state.user[0].life -= 1;
       saveToLocalStorage(state.user[0]);
     },
+    resetUser: (state) => {
+      state.user[0].score = initialState.user[0].score;
+      state.user[0].life = initialState.user[0].life;
+    },
   },
 });
 
@@ -64,5 +68,6 @@ export const {
   scoreDecrease,
   lifeIncrease,
   lifeDecrease,
+  resetUser,
 } = userSlice.actions;
 export default userSlice.reducer;
