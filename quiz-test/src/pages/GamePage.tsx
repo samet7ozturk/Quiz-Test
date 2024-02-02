@@ -3,11 +3,14 @@ import { RootState } from "../store/store";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import {
-  decrease,
-  increase,
+  scoreDecrease,
+  scoreIncrease,
   lifeDecrease,
   lifeIncrease,
 } from "../slices/userSlice";
+
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 import img from "../assets/profil.png";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
@@ -30,9 +33,13 @@ function GamePage() {
   );
   const userState = useAppSelector((state: RootState) => state.user);
 
+  const MySwal = withReactContent(Swal);
   const [count, setCount] = useState(0);
   const [timer, setTimer] = useState(30);
   const [click1, setClick1] = useState(false);
+  const [showCorrect, setShowCorrect] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  //const [darkMode, setDarkMode] = useState("");
   const [gameWinner, setGameWinner] = useState(false);
   const [life, setLife] = useState(userState.user[0].life);
   const [joker1Used, setJoker1Used] = useState(false);
@@ -65,9 +72,7 @@ function GamePage() {
     }
   }
 
-  function switchTheme() {
-    setClick1(!click1);
-  }
+  function switchTheme() {}
 
   const joker1 = () => {
     if (life < 3) {
@@ -88,28 +93,43 @@ function GamePage() {
 
   const joker3 = () => {};
 
+  const handleFire = () => {
+    Swal.fire({
+      title: "Congratulations!",
+      text: "Correct answer!",
+      icon: "success",
+      timer: 1000,
+      showConfirmButton: false,
+    });
+  };
+
   const goToHomePage = () => {
     navigate("/");
   };
 
-  function handleOptionClick(optionisCorrect: boolean) {
+  function handleOptionClick(optionId: number, optionisCorrect: boolean) {
     if (count < questionStateTr.questions.length - 1) {
-      if (optionisCorrect == true) {
+      if (optionisCorrect === true) {
         setCount((count) => count + 1);
-        dispatch(increase());
+        dispatch(scoreIncrease());
         setTimer(30);
+        setShowCorrect(!showCorrect);
+        handleFire();
       } else {
-        dispatch(decrease());
+        dispatch(scoreDecrease());
+        setShowCorrect(!showCorrect);
         if (life > 0) {
           setLife(life - 1);
           dispatch(lifeDecrease());
         } else if (life == 0) {
-          setGameWinner(!gameWinner);
         }
       }
     } else {
+      setGameWinner(!gameWinner);
       console.log("Tebrikler oyunu kazandınız!");
     }
+    setSelectedOption(optionId);
+    setShowCorrect(true);
   }
 
   useEffect(() => {
@@ -132,9 +152,9 @@ function GamePage() {
   return (
     <>
       <nav
-        className={`flex justify-between items-center h-16 ${
-          click1 ? "bg-[#2b2a2d]" : "bg-[#849df5]"
-        } px-6 font-rubik text-xl`}
+        className="flex justify-between items-center h-16 ${
+           darkMode:bg-[#2b2a2d]  bg-[#849df5]
+         px-6 font-rubik text-xl"
       >
         <div className="flex gap-4 text-white items-center">
           <div className="avatar">
@@ -263,13 +283,13 @@ function GamePage() {
           <div className="flex flex-wrap gap-y-12 justify-between w-[750px] animate-animation2">
             {questionStateTr.questions[`${count}`].options.map((item) => (
               <button
-                className={`border border-[#b0a2c6] ${
-                  click1 ? "border-[#b0a2c6]" : "border-none"
-                } rounded-lg w-[300px] h-[40px] hover:scale-105 transition ${
-                  click1 ? "bg-[#7a7385]" : "bg-[#4b9efe]"
+                className={`border border-none rounded-lg w-[300px] h-[40px] hover:scale-105 transition ${
+                  showCorrect && !item.isCorrect && selectedOption === item.id
+                    ? "bg-red-500"
+                    : "bg-slate-300"
                 } text-white text-xl tracking-wider font-light`}
                 key={item.id}
-                onClick={() => handleOptionClick(item.isCorrect)}
+                onClick={() => handleOptionClick(item.id, item.isCorrect)}
               >
                 {item.text}
               </button>
@@ -279,7 +299,7 @@ function GamePage() {
         {gameWinner && (
           <div className="absolute top-[40%] left-[37%] bg-white rounded-md w-[400px] h-[300px] flex flex-col items-center justify-center gap-8">
             <p>Congratulations! You Won the Game.</p>
-            <p>Score:</p>
+            <p>{`Score:${user.score}`}</p>
             <div>
               <LiaTrophySolid className="h-16 w-16 text-yellow-400" />
             </div>
@@ -293,7 +313,7 @@ function GamePage() {
             } rounded-md w-[400px] h-[300px] flex flex-col items-center justify-center gap-8 text-white`}
           >
             <p>Unfortunately, You Lost the Game.</p>
-            <p>Score:</p>
+            <p>{`Score:${user.score}`}</p>
             <div>
               <LiaTrophySolid className="h-16 w-16 text-yellow-400" />
             </div>
