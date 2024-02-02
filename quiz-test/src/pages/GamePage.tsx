@@ -10,8 +10,6 @@ import {
 } from "../slices/userSlice";
 
 import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-
 import img from "../assets/profil.png";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import {
@@ -33,8 +31,7 @@ function GamePage() {
   );
   const userState = useAppSelector((state: RootState) => state.user);
 
-  const MySwal = withReactContent(Swal);
-  const [count, setCount] = useState(0);
+  const [questionCount, setQuestionCount] = useState(0);
   const [timer, setTimer] = useState(30);
   const [click1, setClick1] = useState(false);
   const [showCorrect, setShowCorrect] = useState(false);
@@ -108,9 +105,9 @@ function GamePage() {
   };
 
   function handleOptionClick(optionId: number, optionisCorrect: boolean) {
-    if (count < questionStateTr.questions.length - 1) {
+    if (questionCount < questionStateTr.questions.length - 1) {
       if (optionisCorrect === true) {
-        setCount((count) => count + 1);
+        setQuestionCount((questionCount) => questionCount + 1);
         dispatch(scoreIncrease());
         setTimer(30);
         setShowCorrect(!showCorrect);
@@ -136,11 +133,11 @@ function GamePage() {
     const timerInterval = setInterval(() => {
       setTimer((timer) => timer - 1);
     }, 1000);
-    if (count === questionStateTr.questions.length - 1 || timer === 0) {
+    if (questionCount === questionStateTr.questions.length - 1 || timer === 0) {
       clearInterval(timerInterval);
     }
     return () => clearInterval(timerInterval);
-  }, [count, timer, questionStateTr.questions.length]);
+  }, [questionCount, timer, questionStateTr.questions.length]);
 
   const circumference = 60 * 2 * Math.PI;
   const [circleOffset, setCircleOffset] = useState(circumference);
@@ -203,7 +200,7 @@ function GamePage() {
         className={`${
           click1 ? "bg-[#5b595e]" : "bg-[#f1f0ef]"
         } h-[calc(100vh_-_64px)] font-black tracking-wider font-normal`}
-        key={count}
+        key={questionCount}
       >
         <div className="flex justify-center pt-20 animate-animation3">
           <h1 className="text-[40px]">QUIZ</h1>
@@ -232,10 +229,14 @@ function GamePage() {
         <div className="flex justify-around py-8 animate-animation2">
           <div>
             <div className="flex  py-8">
-              <p className="text-2xl">{`${sentences.question} ${count + 1}`}</p>
+              <p className="text-2xl">{`${sentences.question} ${
+                questionCount + 1
+              }`}</p>
             </div>
             <div className="flex justify-center pb-8">
-              <p className="text-xl ">{questions.questions[`${count}`].text}</p>
+              <p className="text-xl ">
+                {questions.questions[`${questionCount}`].text}
+              </p>
             </div>
           </div>
 
@@ -281,19 +282,21 @@ function GamePage() {
         </div>
         <div className="flex justify-center">
           <div className="flex flex-wrap gap-y-12 justify-between w-[750px] animate-animation2">
-            {questionStateTr.questions[`${count}`].options.map((item) => (
-              <button
-                className={`border border-none rounded-lg w-[300px] h-[40px] hover:scale-105 transition ${
-                  showCorrect && !item.isCorrect && selectedOption === item.id
-                    ? "bg-red-500"
-                    : "bg-slate-300"
-                } text-white text-xl tracking-wider font-light`}
-                key={item.id}
-                onClick={() => handleOptionClick(item.id, item.isCorrect)}
-              >
-                {item.text}
-              </button>
-            ))}
+            {questionStateTr.questions[`${questionCount}`].options.map(
+              (item) => (
+                <button
+                  className={`border border-none rounded-lg w-[300px] h-[40px] hover:scale-105 transition ${
+                    showCorrect && !item.isCorrect && selectedOption === item.id
+                      ? "bg-red-500"
+                      : "bg-slate-300"
+                  } text-white text-xl tracking-wider font-light`}
+                  key={item.id}
+                  onClick={() => handleOptionClick(item.id, item.isCorrect)}
+                >
+                  {item.text}
+                </button>
+              )
+            )}
           </div>
         </div>
         {gameWinner && (
