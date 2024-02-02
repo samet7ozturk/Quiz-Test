@@ -39,11 +39,11 @@ const userSlice = createSlice({
       state.user[0] = { ...state.user[0], name, surname, email };
       saveToLocalStorage(state.user[0]);
     },
-    increase: (state) => {
+    scoreIncrease: (state) => {
       state.user[0].score += 10;
       saveToLocalStorage(state.user[0]);
     },
-    decrease: (state) => {
+    scoreDecrease: (state) => {
       state.user[0].score -= 10;
       saveToLocalStorage(state.user[0]);
     },
@@ -58,6 +58,11 @@ const userSlice = createSlice({
   },
 });
 
-export const { sendLoginInfo, increase, decrease, lifeIncrease, lifeDecrease } =
-  userSlice.actions;
+export const {
+  sendLoginInfo,
+  scoreIncrease,
+  scoreDecrease,
+  lifeIncrease,
+  lifeDecrease,
+} = userSlice.actions;
 export default userSlice.reducer;
